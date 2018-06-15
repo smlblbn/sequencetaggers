@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from tagger import Tagger
+import os
 import nltk
 import seaborn
 import matplotlib.pyplot as plt
@@ -135,22 +136,23 @@ if __name__ == '__main__':
     print('test f1: ', f1)
     print('test acc:', accuracy)
     print('test con:', confusion)
-    print()
 
-    # print(tagged_sents)
+    directory = '../graphics'
+    if not os.path.exists(directory):
+        os.makedirs(directory)
 
     seaborn.heatmap(confusion, vmin=None, vmax=None, cmap=None, center=None, robust=False, annot=None, fmt='.2g',
                         annot_kws=None, linewidths=0, linecolor='white', cbar=True, cbar_kws=None, cbar_ax=None,
                         square=False, xticklabels=set(tagger.labels), yticklabels=set(tagger.labels), mask=None, ax=None)
-
+    plt.savefig('../graphics/lr_pos_confusion_matrix')
     plt.show()
 
+    directory = '../models'
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+
     tagger.save('../models/tagger_lr_pos.pickle')
-    del tagger
-    try:
-        print(tagger)
-    except Exception as e:
-        print(e)
+
     '''
     I   PRON    PRP
     do  AUX VBP

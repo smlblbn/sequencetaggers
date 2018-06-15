@@ -2,6 +2,7 @@
 
 from tagger import Tagger
 from tagger_lr_chunk import TaggerLR_Chunk
+import os
 import nltk
 import seaborn
 import matplotlib.pyplot as plt
@@ -58,7 +59,7 @@ class TaggerLR_NER(Tagger):
     def calculate_chunk(self):
         self.chunk = []
         tagger1 = TaggerLR_Chunk()
-        tagger1.load('models/tagger_lr_chunk.pickle')
+        tagger1.load('../models/tagger_lr_chunk.pickle')
         tagger1.sentences = self.sentences
         tagger1.calculate_upos()
         tagger1.calculate_features()
@@ -151,8 +152,8 @@ class TaggerLR_NER(Tagger):
 
 if __name__ == '__main__':
 
-    # data_dir = 'data_mini/ner/'
-    data_dir = 'data/ner/'
+    data_dir = '../data_mini/ner/'
+    # data_dir = '../data/ner/'
 
     tagger = TaggerLR_NER()
 
@@ -167,22 +168,23 @@ if __name__ == '__main__':
     print('test f1: ', f1)
     print('test acc:', accuracy)
     print('test con:', confusion)
-    print()
 
-    # print(tagged_sents)
+    directory = '../graphics'
+    if not os.path.exists(directory):
+        os.makedirs(directory)
 
     seaborn.heatmap(confusion, vmin=None, vmax=None, cmap=None, center=None, robust=False, annot=None, fmt='.2g',
                         annot_kws=None, linewidths=0, linecolor='white', cbar=True, cbar_kws=None, cbar_ax=None,
                         square=False, xticklabels=set(tagger.labels), yticklabels=set(tagger.labels), mask=None, ax=None)
-
+    plt.savefig('../graphics/lr_ner_confusion_matrix')
     plt.show()
 
-    tagger.save('models/tagger_lr_ner.pickle')
-    del tagger
-    try:
-        print(tagger)
-    except Exception as e:
-        print(e)
+    directory = '../models'
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+
+    tagger.save('../models/tagger_lr_ner.pickle')
+
     '''
     --    :    B-NP    O
     Brussels    NNP    I-NP    B-ORG
@@ -200,7 +202,7 @@ if __name__ == '__main__':
     .    .    O    O
     '''
     tagger = TaggerLR_NER()
-    tagger.load('models/tagger_lr_ner.pickle')
+    tagger.load('../models/tagger_lr_ner.pickle')
     print()
     print(tagger.tag(['--', 'Brussels', 'Newsroom', '32', '2', '287', '6800']))
     print()
