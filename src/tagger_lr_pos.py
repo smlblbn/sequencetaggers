@@ -119,8 +119,8 @@ class TaggerLR_POS(Tagger):
 
 if __name__ == '__main__':
 
-    # data_dir = 'data_mini/pos/'
-    data_dir = 'data/pos/'
+    data_dir = '../data_mini/pos/'
+    # data_dir = '../data/pos/'
 
     tagger = TaggerLR_POS()
 
@@ -145,7 +145,7 @@ if __name__ == '__main__':
 
     plt.show()
 
-    tagger.save('models/tagger_lr_pos.pickle')
+    tagger.save('../models/tagger_lr_pos.pickle')
     del tagger
     try:
         print(tagger)
@@ -165,7 +165,7 @@ if __name__ == '__main__':
     Done    ADJ JJ
     '''
     tagger = TaggerLR_POS()
-    tagger.load('models/tagger_lr_pos.pickle')
+    tagger.load('../models/tagger_lr_pos.pickle')
     print()
     print(tagger.tag(['I', 'do', 'n\'t', 'think', 'it', 'matters']))
     print()
